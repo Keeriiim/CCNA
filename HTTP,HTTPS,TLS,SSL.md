@@ -38,44 +38,42 @@ It addressed many of the security weaknesses found in SSL and introduced new fea
 ## SSL/TLS
 
 ## Certificate
-When a client(browser) tries to connect to a website it will ask for it to identify itself. The browser responds with it's certificate which will show that it is legit. 
-The certificate will be 
+When a client(browser) tries to connect to a website it will ask for it to identify itself. The browser responds with it's certificate which will show that it is legit.  
+When a web browser receives a certificate from a server during the HTTPS handshake, it checks the validity of the certificate against several criteria.  
 
-When a web browser receives a certificate from a server during the HTTPS handshake, it checks the validity of the certificate against several criteria. Here's how the validation process typically works:
+Certificate Chain: The browser checks if the certificate was issued by a trusted Certificate Authority (CA). It does this by verifying the certificate chain, also known as the certificate's "path to trust." This involves checking if the server's certificate was signed by an intermediate CA certificate, and if that intermediate certificate was signed by a root CA certificate that the browser trusts. Browsers come pre-installed with a list of trusted root CA certificates.  
 
-Certificate Chain: The browser checks if the certificate was issued by a trusted Certificate Authority (CA). It does this by verifying the certificate chain, also known as the certificate's "path to trust." This involves checking if the server's certificate was signed by an intermediate CA certificate, and if that intermediate certificate was signed by a root CA certificate that the browser trusts. Browsers come pre-installed with a list of trusted root CA certificates.
+Certificate Revocation: The browser checks if the certificate has been revoked by the issuing CA. Certificates can be revoked if they are compromised, expired, or if the entity they represent is no longer trusted. Browsers typically use Certificate Revocation Lists (CRLs) or Online Certificate Status Protocol (OCSP) to check the revocation status of certificates.  
 
-Certificate Revocation: The browser checks if the certificate has been revoked by the issuing CA. Certificates can be revoked if they are compromised, expired, or if the entity they represent is no longer trusted. Browsers typically use Certificate Revocation Lists (CRLs) or Online Certificate Status Protocol (OCSP) to check the revocation status of certificates.
+Expiration: The browser checks if the certificate has expired. Certificates have a validity period, typically ranging from a few months to several years. If the certificate has expired, it's considered invalid.  
 
-Expiration: The browser checks if the certificate has expired. Certificates have a validity period, typically ranging from a few months to several years. If the certificate has expired, it's considered invalid.
+Hostname Matching: The browser verifies that the Common Name (CN) or Subject Alternative Name (SAN) field in the certificate matches the hostname of the server to which the browser is connecting. This ensures that the certificate is valid for the specific domain being accessed.  
 
-Hostname Matching: The browser verifies that the Common Name (CN) or Subject Alternative Name (SAN) field in the certificate matches the hostname of the server to which the browser is connecting. This ensures that the certificate is valid for the specific domain being accessed.
+Key Usage and Extended Key Usage: The browser checks if the certificate's key usage and extended key usage extensions are appropriate for the intended use. For example, a certificate intended for server authentication should have the appropriate key usage extensions.  
 
-Key Usage and Extended Key Usage: The browser checks if the certificate's key usage and extended key usage extensions are appropriate for the intended use. For example, a certificate intended for server authentication should have the appropriate key usage extensions.
-
-If the certificate passes all of these checks, the browser considers it valid and proceeds with establishing the secure connection. If any of the checks fail, the browser will display a warning to the user indicating that the connection may not be secure or may be compromised.
+If the certificate passes all of these checks, the browser considers it valid and proceeds with establishing the secure connection. If any of the checks fail, the browser will display a warning to the user indicating that the connection may not be secure or may be compromised.  
 
 
 
 ## Encryption
 There are 2 types of encryption
 
-Asymetric - 1024/2048 bit encryption
-Client ---->          Identity request           ----> Server
-Client <----      Public key + certificate       <---- Server(Private key)
-Client ---->     Encrypted data(public key)      ----> Server(Decrypts using private key)
-Client ---->     Encrypted data(public key)      ----> Server(Decrypts using private key)
+Asymetric - 1024/2048 bit encryption  
+Client ---->          Identity request           ----> Server  
+Client <----      Public key + certificate       <---- Server(Private key)  
+Client ---->     Encrypted data(public key)      ----> Server(Decrypts using private key)  
+Client ---->     Encrypted data(public key)      ----> Server(Decrypts using private key)  
 
-Symetric - 128 / 256 bit encryption
-Client ---->     Public session key + data       ----> Server(Stores temp public session key)
-Client ---->     Encrypted data(public key)      <---- Server(Decrypts using public key)
+Symetric - 128 / 256 bit encryption  
+Client                             ---->     Public session key + data       ----> Server(Stores temp & decrypts using public session key)    
+Client(decrypt using session key ) ---->     Encrypted data(public key)      <---- Server  
+  
+
+HTTPS flow:  
+Client                            ---->              Identity request                           ----> Server  
+Client                            <----      Public server key + certificate                    <---- Server(Decrypts using private key)  
+Client                            ---->      Public session key + data + public server key      ----> Server(Decrypts using private key)  
+Client(Decrypt using session key) <----        data encrypted using session key                 <---- Server(Decrypt using session key)  
 
 
-HTTPS flow:
-Client                            ---->              Identity request                           ----> Server
-Client                            <----      Public server key + certificate                    <---- Server(Decrypts using private key)
-Client                            ---->      Public session key + data + public server key      ----> Server(Decrypts using private key)
-Client(Decrypt using session key) <----        data encrypted using session key                 <---- Server(Decrypt using session key)
-
-
-![image](https://github.com/Keeriiim/CCNA/assets/117115289/53df4920-ec42-478a-9159-691bed665291)
+![image](https://github.com/Keeriiim/CCNA/assets/117115289/53df4920-ec42-478a-9159-691bed665291)  
