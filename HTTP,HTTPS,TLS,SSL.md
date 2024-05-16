@@ -57,16 +57,25 @@ If the certificate passes all of these checks, the browser considers it valid an
 
 
 
+## Encryption
+There are 2 types of encryption
+
+Asymetric - 1024/2048 bit encryption
+Client ---->          Identity request           ----> Server
+Client <----      Public key + certificate       <---- Server(Private key)
+Client ---->     Encrypted data(public key)      ----> Server(Decrypts using private key)
+Client ---->     Encrypted data(public key)      ----> Server(Decrypts using private key)
+
+Symetric - 128 / 256 bit encryption
+Client ---->     Public session key + data       ----> Server(Stores temp public session key)
+Client ---->     Encrypted data(public key)      <---- Server(Decrypts using public key)
 
 
+HTTPS flow:
+Client                            ---->              Identity request                           ----> Server
+Client                            <----      Public server key + certificate                    <---- Server(Decrypts using private key)
+Client                            ---->      Public session key + data + public server key      ----> Server(Decrypts using private key)
+Client(Decrypt using session key) <----        data encrypted using session key                 <---- Server(Decrypt using session key)
 
 
-
-
-
-
-
-
-
-
-![image](https://github.com/Keeriiim/CCNA/assets/117115289/e7802083-fe6d-48fc-b21b-ba5a9b81b411)
+![image](https://github.com/Keeriiim/CCNA/assets/117115289/53df4920-ec42-478a-9159-691bed665291)
