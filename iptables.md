@@ -66,3 +66,30 @@ iptables --policy INPUT ACCEPT
 ```
 
 
+# Blocking
+
+## a specific ip adress
+-I for top, -A for bottom of the list -j for Target  
+![image](https://github.com/Keeriiim/CCNA/assets/117115289/a5c48774-d86b-470b-8e5c-43f9de30fa73)  
+
+Subnes can also be added.  
+![image](https://github.com/Keeriiim/CCNA/assets/117115289/6f1003a1-1886-4ed8-bc15-1ad5b0b3f59b)  
+
+# Block Http traffic except my own
+```bash
+iptables -I INPUT -p tcp --dport 80 -j DROP       # -p tcp for protocol, --dport 80 for connection type
+iptables -I INPUT -p tcp --dport 80 -s 'MyIP* ACCEPT       # -p tcp for protocol, --dport 80 for connection type
+
+```
+## Delete a rule
+```bash
+iptables -L --line-number                         # Lists the table with numbers for each row
+iptables -D INPUT 1                               # Will -D delete from INPUT row 1
+```
+![image](https://github.com/Keeriiim/CCNA/assets/117115289/9daea2a9-869f-4580-a266-89b989d0f26e)  
+
+
+
+
+
+
