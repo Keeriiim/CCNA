@@ -25,6 +25,44 @@ Nat
 Chains are "tags" that define and match packets to their state
 
 # Packet flow
+Incoming - processed - Output
+
 Firewall rules: Managing input/output of packets in relation to a server  
   Ex block all incomming SSH in port 22  
   Block HTTP connections  
+
+
+Target: What is going to happen with a packet  
+Once a packet is matched with a rule a target is set  
+1. Accept - Return 200  
+2. Reject - Return Rejected  
+3. Drop - No feedback
+
+ If there is no incoming rule -> default, if no default -> accepted
+
+# Getting started from VM
+Default firewall for  
+Debian: Ufw  
+Centos: Firewalld  
+
+
+Let's clear uninstall the services because they are interfaces containing iptables(holding some predefined rules).
+```bash
+iptables -F              # Clear the current tables
+iptables -L              # List all chains of iptables
+
+apt install iptables     # Installing ip tables
+```
+![image](https://github.com/Keeriiim/CCNA/assets/117115289/54cfecb1-2c16-4d7d-871f-b1c4066abdf2)  
+
+
+When starting make sure all policies are set to ACCEPT.
+```bash
+iptables --policy INPUT ACCEPT
+```
+### If you set policy INPUT to DROP your cli will freeze and not enable you to reconnect.
+```bash
+
+```
+
+
