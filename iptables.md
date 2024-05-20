@@ -81,12 +81,23 @@ iptables -I INPUT -p tcp --dport 80 -j DROP       # -p tcp for protocol, --dport
 iptables -I INPUT -p tcp --dport 80 -s 'MyIP* ACCEPT       # -p tcp for protocol, --dport 80 for connection type
 
 ```
-## Delete a rule
+
+# Delete a rule
 ```bash
 iptables -L --line-number                         # Lists the table with numbers for each row
 iptables -D INPUT 1                               # Will -D delete from INPUT row 1
 ```
 ![image](https://github.com/Keeriiim/CCNA/assets/117115289/9daea2a9-869f-4580-a266-89b989d0f26e)  
+
+## Delete all
+```bash
+iptables -L
+```
+
+# Save
+```bash
+/sbin/iptables-save
+```
 
 
 
