@@ -12,32 +12,40 @@
 
 
 # DNS
-DNS translates domain names like example.com into IP addresses (like 192.0.2.1) that computers use to communicate over the internet.
+Domain Name System (DNS) — often described as the phonebook of the internet. DNS translates domain names into IP addresses: contoso.com ➜ 192.0.2.1
 DevOps professionals use DNS to map domain names to servers, services, or other resources within their infrastructure.
 
-## Service Discovery
-DNS can be used for service discovery, allowing applications and services to locate each other dynamically within a network.
-DevOps teams can leverage DNS-based service discovery mechanisms to enable automatic detection and communication between microservices, containers, and other components of a distributed system.
+## What is a domain?
+A domain is a human-readable name that maps to an IP address, allowing users to access websites, email services, and other internet resources without remembering numeric addresses.
 
-## Load Balancing:
-DNS-based load balancing distributes incoming traffic across multiple servers or endpoints to improve reliability, scalability, and performance.
-DevOps engineers can use DNS load balancing techniques to distribute traffic evenly among backend servers, reduce latency, and achieve high availability for applications.
+ICANN (Internet Corporation for Assigned Names and Numbers) 
+* A nonprofit organization that oversees the global domain name system.
+* It controls the master database of all Top-Level Domains (TLDs) like .com, .org, .net, .io.
 
-## Global Traffic Management:
-DNS-based global traffic management (GTM) allows organizations to route user traffic based on factors such as geographical location, network conditions, or server availability.
-DevOps teams can use GTM solutions to optimize the delivery of applications and services, improve user experience, and ensure high availability across distributed environments.
-DNS Management Tools:
+* TLDs (Top-Level Domains) like .com, .org, .net, etc. are not databases themselves — they are categories of domains.
+* Each TLD has a corresponding registry that operates and maintains a database of all domain names registered under that TLD
 
-DevOps professionals use DNS management tools and platforms to configure, monitor, and troubleshoot DNS infrastructure effectively.
-These tools provide features such as DNS record management, zone management, health checks, monitoring, and automation capabilities to streamline DNS operations.
-DNS Security:
+* .com is a TLD.
 
-DNS plays a crucial role in security, and DevOps teams need to ensure the security and integrity of their DNS infrastructure.
-Best practices for DNS security include implementing DNSSEC (DNS Security Extensions), securing DNS servers against DDoS attacks, and monitoring DNS traffic for anomalies or malicious activity.
-Integration with Infrastructure as Code (IaC):
+Verisign is the registry that maintains the authoritative database of all .com domain names (e.g., google.com, contoso.com, etc.).
 
-DNS configuration can be managed and automated using Infrastructure as Code (IaC) tools such as Terraform, Ansible, or CloudFormation.
-DevOps practitioners can define DNS resources, records, and configurations as code, enabling version control, reproducibility, and consistency in DNS management across environments.
+That .com database stores:
+
+Which domain names exist
+
+Who the registrar is
+
+Which name servers are responsible for DNS lookups
+
+Example: GoDaddy, Namecheap, Google Domains, etc.
+
+The registry tracks which registrar registered the domain.
+
+If something needs to be changed or resolved about the domain, it goes through the registrar that manages it
+
+
+
+
 
 # DNS Records
 
@@ -68,3 +76,62 @@ It's useful when you have a changing IP address, such as with a home internet co
 You typically install a Dynamic DNS client on your network, which periodically updates the DNS records with your current IP address.
 This type of record is often used for remote access to devices or services hosted on a dynamic IP address.
 Each of these DNS record types serves a specific purpose in mapping domain names to IP addresses or other domain names, allowing for the translation of human-readable domain names into machine-readable IP addresses, which is essential for internet communication.
+
+
+
+
+
+# What can DNS be used for?
+## Service Discovery
+DNS can be used for service discovery, allowing applications and services to locate each other dynamically within a network.
+DevOps teams can leverage DNS-based service discovery mechanisms to enable automatic detection and communication between microservices, containers, and other components of a distributed system.
+
+## Load Balancing:
+DNS-based load balancing distributes incoming traffic across multiple servers or endpoints to improve reliability, scalability, and performance.
+DevOps engineers can use DNS load balancing techniques to distribute traffic evenly among backend servers, reduce latency, and achieve high availability for applications.
+
+## Global Traffic Management:
+DNS-based global traffic management (GTM) allows organizations to route user traffic based on factors such as geographical location, network conditions, or server availability.
+DevOps teams can use GTM solutions to optimize the delivery of applications and services, improve user experience, and ensure high availability across distributed environments.
+DNS Management Tools:
+
+DevOps professionals use DNS management tools and platforms to configure, monitor, and troubleshoot DNS infrastructure effectively.
+These tools provide features such as DNS record management, zone management, health checks, monitoring, and automation capabilities to streamline DNS operations.
+DNS Security:
+
+DNS plays a crucial role in security, and DevOps teams need to ensure the security and integrity of their DNS infrastructure.
+Best practices for DNS security include implementing DNSSEC (DNS Security Extensions), securing DNS servers against DDoS attacks, and monitoring DNS traffic for anomalies or malicious activity.
+Integration with Infrastructure as Code (IaC):
+
+DNS configuration can be managed and automated using Infrastructure as Code (IaC) tools such as Terraform, Ansible, or CloudFormation.
+DevOps practitioners can define DNS resources, records, and configurations as code, enabling version control, reproducibility, and consistency in DNS management across environments.
+
+
+
+
+
+
+
+
+# Configuring DNS
+If you have broadband via ISP you will probably have their DNS servers. You can see the servers in the GUI of your router -> Search for Settings / Internet / WAN / DNS
+**nslookup** - > Shows your DNS resolver (in my case it was my router Default Server:  dsldevice.lan Address:  ::IpV6:: )
+
+My example :
+* Computer sends DNS queries to your router (dsldevice.lan)
+* The router forwards those queries to the ISP's DNS servers (192..... , 192 ....)
+* These servers resolve the domain and send the answer back
+
+
+## Change DNS servers 
+### On your local machine
+* Press Windows + R -> type ncpa.cpl
+* Right click on your Ethernet adapter -> properties -> Ipv4 -> properties
+
+![image](https://github.com/user-attachments/assets/fa372e85-4065-4fdd-8b70-75cc6871c289)
+
+### For all devices connected to the router
+* Go to the GUI of your rotuer -> find DNS settings -> choose DNS servers
+
+**ipconfig /flushdns** Remember to clear the dns cache after a change to avoid problems 
+
