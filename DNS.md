@@ -80,8 +80,58 @@ Each of these DNS record types serves a specific purpose in mapping domain names
 
 
 
+# The DNS Route
+1. Your computer (asks resolver) 
+2. DNS Resolver (asks root Name Server) 
+   * Receives DNS queries from your device -> queries other DNS servers
+   * Returns the final IP address back to your device
+3. Root Name Server (points to TLD server)  
+   * The Root DNS servers are the starting point for all DNS lookups. They're like the index of 
+     a massive internet phonebook.
+   * There are 13 root server systems, labeled A to M (e.g., Root Server A, Root Server B…).
+   * Each one is actually a network of servers worldwide using Anycast routing.
+   * They don’t store domain info directly — just which TLD name servers to ask next (like 
+     .com, .org, etc.).
+4. TLD Server (e.g., .com) (points to domain’s name server)
+   * Your resolver then asks the .com name servers (managed by Verisign)
+   * Reply: “The name servers for abc.com are ns1.abcdns.com and ns2.abcdns.com.”
+5. Authoritative Name Server for the Domain
+   * It holds the actual DNS records (like A, MX, CNAME, TXT) for contoso.com.
+   * “Hey ns1.contosodns.com, what is the IP address for www.contoso.com?”
+   * The name server replies: “The A record for www.contoso.com is 192.0.2.1.”
+  
 
-# What can DNS be used for?
+
+# Configuring DNS
+If you have broadband via ISP you will probably have their DNS servers. You can see the servers in the GUI of your router -> Search for Settings / Internet / WAN / DNS
+**nslookup** - > Shows your DNS resolver (in my case it was my router Default Server:  dsldevice.lan Address:  ::IpV6:: )
+
+My example :
+* Computer sends DNS queries to your router (dsldevice.lan)
+* The router forwards those queries to the ISP's DNS servers (192..... , 192 ....)
+* These servers resolve the domain and send the answer back
+
+
+## Change DNS servers 
+### On your local machine
+* Press Windows + R -> type ncpa.cpl
+* Right click on your Ethernet adapter -> properties -> Ipv4 -> properties
+
+![image](https://github.com/user-attachments/assets/fa372e85-4065-4fdd-8b70-75cc6871c289)
+
+### For all devices connected to the router
+* Go to the GUI of your rotuer -> find DNS settings -> choose DNS servers
+
+**ipconfig /flushdns** Remember to clear the dns cache after a change to avoid problems 
+
+
+# TL;DR:
+* Changing your DNS server only changes how you get the IP, not how you get to the IP.
+* Meaning -> a tracert won't mater because the DNS query is BEFORE the routing
+
+
+# Devops stuff
+
 ## Service Discovery
 DNS can be used for service discovery, allowing applications and services to locate each other dynamically within a network.
 DevOps teams can leverage DNS-based service discovery mechanisms to enable automatic detection and communication between microservices, containers, and other components of a distributed system.
@@ -109,29 +159,4 @@ DevOps practitioners can define DNS resources, records, and configurations as co
 
 
 
-
-
-
-
-# Configuring DNS
-If you have broadband via ISP you will probably have their DNS servers. You can see the servers in the GUI of your router -> Search for Settings / Internet / WAN / DNS
-**nslookup** - > Shows your DNS resolver (in my case it was my router Default Server:  dsldevice.lan Address:  ::IpV6:: )
-
-My example :
-* Computer sends DNS queries to your router (dsldevice.lan)
-* The router forwards those queries to the ISP's DNS servers (192..... , 192 ....)
-* These servers resolve the domain and send the answer back
-
-
-## Change DNS servers 
-### On your local machine
-* Press Windows + R -> type ncpa.cpl
-* Right click on your Ethernet adapter -> properties -> Ipv4 -> properties
-
-![image](https://github.com/user-attachments/assets/fa372e85-4065-4fdd-8b70-75cc6871c289)
-
-### For all devices connected to the router
-* Go to the GUI of your rotuer -> find DNS settings -> choose DNS servers
-
-**ipconfig /flushdns** Remember to clear the dns cache after a change to avoid problems 
 
