@@ -50,32 +50,33 @@ If something needs to be changed or resolved about the domain, it goes through t
 # DNS Records
 
 ## A Record (Address Record):
-
-An A record is the most fundamental type of DNS record.
-It maps a domain name to an IPv4 address (32-bit).
-For example, if you have a domain name example.com and you want it to point to the IP address 192.0.2.1, you would create an A record for example.com with the value 192.0.2.1.
+* Maps a domain name to an IPv4 address (32-bit): yourdomain.com → 203.0.113.5
+* Must use public IP addresses
+* If ur hosting on a local server, portforwaring must be set on the router
+* If your hosting on Azure / Aws, portforwaring must be set on their plattform
 
 ## AAAA Record (IPv6 Address Record):
+* Maps a domain name to an IPv6 address (128-bit). yourdomain.com -> 2001:0db8:85a3:0000:0000:8a2e:0370:7334.
 
-Similar to the A record, but it maps a domain name to an IPv6 address (128-bit).
-IPv6 addresses are used to accommodate the growing number of devices connecting to the internet.
-For example, if you have a domain name example.com and you want it to point to the IPv6 address 2001:0db8:85a3:0000:0000:8a2e:0370:7334, you would create an AAAA record for example.com with the value 2001:0db8:85a3:0000:0000:8a2e:0370:7334.
+## A + Dynamic DNS Record:
+* Dynamic DNS (DDNS) allows you to automatically update the IP address associated with a hostname in real-time.
+* A Dynamic DNS record typically requires a DNS host that supports Dynamic DNS.
+* You need to install software or use a script on your device that gets the current IP and sends it to your DNS provider/host (ex cloudflare).
 
-## Alias Record (ANAME, CNAME Record):
-
-A CNAME (Canonical Name) record creates an alias from one domain name to another.
+## CNAME (Canonical Name) record
+* Creates an alias from one domain name to another.
 It's often used when you want a domain or subdomain to point to another domain name.
 For example, if you have a domain name www.example.com and you want it to point to example.com, you would create a CNAME record for www.example.com with the value example.com.
 ANAME records are similar but are often provided by DNS hosting services as a solution for apex (root) domain aliasing, where CNAME records are not allowed.
 
-## A + Dynamic DNS Record:
-Dynamic DNS (DDNS) allows you to automatically update the IP address associated with a hostname in real-time.
-A Dynamic DNS record typically works with a Dynamic DNS service provider.
-It's useful when you have a changing IP address, such as with a home internet connection, and you want to ensure that your domain name always points to the correct IP address, even if it changes.
+## Subdomains vs. Path-Based URLs:
+* Subdomains are used to create distinct sections or services of your website. They usually represent entirely separate areas or functionalities, like a blog (blog.example.com), a shop (shop.example.com), or a forum (forum.example.com).
+* Subdomains typically indicate something different enough that it may require separate hosting or infrastructure.
 
-You typically install a Dynamic DNS client on your network, which periodically updates the DNS records with your current IP address.
-This type of record is often used for remote access to devices or services hosted on a dynamic IP address.
-Each of these DNS record types serves a specific purpose in mapping domain names to IP addresses or other domain names, allowing for the translation of human-readable domain names into machine-readable IP addresses, which is essential for internet communication.
+* Paths (e.g., example.com/home, example.com/page1) are used to create different pages or sections on the same domain. These are simply different paths under your main domain.
+
+
+
 
 
 
